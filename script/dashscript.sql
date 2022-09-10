@@ -40,6 +40,61 @@ FROM salaries
 GROUP BY 1
 ORDER BY 2 DESC
 
+-- IMPORT PART 2
+SELECT *
+FROM salaries
+
+SELECT *
+FROM collegeplaying
+
+SELECT *
+FROM allstarfull
+
+SELECT *
+FROM awardsplayers
+
+SELECT *
+FROM schools
+
+SELECT *
+FROM people
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
