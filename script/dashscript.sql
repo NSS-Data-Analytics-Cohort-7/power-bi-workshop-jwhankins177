@@ -1,15 +1,10 @@
 -- Player full name and awards won.
-SELECT p.playerid, p.namefirst || ' ' || p.namelast AS name, a.awardid
+SELECT p.namefirst || ' ' || p.namelast AS name, COUNT(a.awardid) AS award_count_total, a.playerid
 FROM awardsplayers AS a
 JOIN people AS p
     USING (playerid)
-    
--- Full name of school    
-SELECT DISTINCT(c.playerid), c.schoolid, s.schoolname
-FROM collegeplaying AS c
-JOIN schools AS s
-    USING (schoolid)
-ORDER BY 1
+GROUP BY 1, 3
+ORDER BY 2 DESC
 
 -- Playername and allstar appearances
 SELECT p.namefirst || ' ' || p.namelast AS name, COUNT(DISTINCT(a.gameid)) as total_allstar, p.playerid
@@ -18,38 +13,32 @@ JOIN people AS p
     USING(playerid)
 GROUP BY 1,3
 ORDER BY 2 DESC
-LIMIT 10
+
+-- Full name of school    
+SELECT DISTINCT(s.schoolname), s.schoolid
+FROM schools AS s
+JOIN collegeplaying AS c
+USING (schoolid)
+
+-- College student
+SELECT DISTINCT(p.playerid), c.schoolid
+FROM people p
+LEFT JOIN collegeplaying c
+    ON p.playerid = c.playerid
+WHERE c.schoolid IS NOT null
+
+-- None college student
+SELECT DISTINCT(p.playerid), c.schoolid
+FROM people p
+LEFT JOIN collegeplaying c
+    ON p.playerid = c.playerid
+WHERE c.schoolid IS null
 
 -- Playerid and total career salary
 SELECT playerid, SUM(salary)
 FROM salaries
---WHERE playerid ='teixema01'
 GROUP BY 1
 ORDER BY 2 DESC
-
-
--- Top ten schools by MLB salaries
-SELECT c.schoolid, s.salary, c.yearid, playerid
-FROM collegeplaying as c
-JOIN salaries as s
-USING (playerid)
-WHERE c.schoolid = 'gatech'
--- GROUP BY 1,2,4
-ORDER BY 2 DESC
---LIMIT 10
-
-SELECT DISTINCT(playerid), SUM(salary)
-FROM salaries
-FULL JOIN collegeplaying
-    USING (playerid)
-WHERE playerid = 'teixema01'
-GROUP BY 1
-
-
-
-
-
-
 
 
 
